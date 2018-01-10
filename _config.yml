@@ -1,0 +1,60 @@
+# For Jekyll config documentation please see https://jekyllrb.com/docs/configuration/
+
+
+## General Blog Configs
+##
+
+url:                "https://docs.cs261.net"
+baseurl:
+title:              Test Title
+tagline:            Test Tagline
+description:        Test Description
+
+
+## Theme Configs
+##
+
+google_analytics_key:
+show_full_navigation: true
+
+
+## Generation Configs
+##
+
+permalink:          pretty
+#paginate:           10
+
+markdown:           kramdown
+highlighter:        rouge
+excerpt_separator:  "<!-- more -->"
+# sass:
+#   sass_dir:         _sass
+#   style:            :compressed
+
+exclude:
+  - .gitignore
+  - Gemfile
+  - Gemfile.lock
+  - CNAME
+  - README.md
+  - LICENCE
+  - Serve.bat
+  
+
+## Data/Collection Configs
+##
+collections:
+  data:
+    title:          Test Data
+    permalink:      /:path/
+    output:         true
+
+
+## Dependencies
+##
+gem:                [jekyll-admin]
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-feed
+

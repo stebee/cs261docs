@@ -8,6 +8,12 @@ This website is statically generated using Jekyll, which is writen in Ruby, but 
 
 Content is written using Markdown, and HTML, with templating provided by Liquid.
 
+The Jekyll template used as a base is [Edition](https://github.com/CloudCannon/edition-jekyll-template)
+
+### Post Editing References
+- To edit markdown docs from anywhere, use [Prose](http://prose.io/)
+- To edit markdown docs locally see the [Run Locally](#how-to-run-locally-on-windows) section, which should automatically start a [Jekyll admin](https://github.com/jekyll/jekyll-admin) instance locally which you can access 
+
 
 ### Language References
 - [Markdown Cheat Sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)

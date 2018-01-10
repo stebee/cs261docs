@@ -1,0 +1,21 @@
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="Jekyll v{{ jekyll.version }}">
+
+<title>
+  {% if page.title == "Home" %}
+    {{ site.title }} &middot; {{ site.tagline }}
+  {% else %}
+    {{ page.title }} &middot; {{ site.title }}
+  {% endif %}
+</title>
+
+<!-- Local styles -->
+<link href="{{ site.baseurl }}/public/css/main.css" rel="stylesheet" type="text/css">
+
+<link href="{{ site.baseurl }}/public/favicon.ico" rel="shortcut icon">
+
+{% feed_meta %}
+{% seo %}

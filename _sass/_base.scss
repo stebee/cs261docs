@@ -1,0 +1,61 @@
+$color-base:          #57a4f6;
+$color-base-light:    #d7ebff;
+$color-base-dark:     #2d6db2;
+
+$darken-amount:       10;
+
+$color-red:           #ae1e2d;
+$color-red-dark:      darken($color-red, $darken-amount);
+$color-orange:        #dc8606;
+$color-orange-dark:   darken($color-orange, $darken-amount);
+$color-yellow:        #f1e057;
+$color-yellow-dark:   darken($color-yellow, $darken-amount);
+$color-purple:        #944bf7;
+$color-purple-dark:   darken($color-purple, $darken-amount);
+$color-black:         #3d3d3d;
+$color-black-dark:    darken($color-black, $darken-amount);
+$color-lime:          #a9cd00;
+$color-lime-dark:     darken($color-lime, $darken-amount);
+$color-green:         #528900;
+$color-green-dark:    darken($color-green, $darken-amount);
+$color-blue:          #5051f7;
+$color-blue-dark:     darken($color-blue, $darken-amount);
+$color-sky:           #5fbdf6;
+$color-sky-dark:      darken($color-sky, $darken-amount);
+
+$color-white:         white;
+$color-grey:          darken($color-white, 10);
+
+a {
+  &.disabled {
+    /* Make the disabled links grayish*/
+    color: gray;
+    /* And disable the pointer events */
+    pointer-events: none;
+  }
+
+/*  
+  &:link    { color: $color-white;  }
+  &:visited { color: $color-white;  }
+  &:hover   { color: $color-grey;   }
+  &:visited { color: $color-white;  }
+  */
+}
+
+html, body { height: 100%; }
+
+.fill { 
+  min-height: 100%;
+  height: 100%;
+}
+
+.full-image {
+  width:100%; 
+  height:100%;
+  background: center center no-repeat;
+}
+
+a.image-link {
+  min-width: 100px;
+  min-height: 100px;
+}
