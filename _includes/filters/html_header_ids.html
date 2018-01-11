@@ -66,11 +66,11 @@
 
   {%- comment %} Generate Output: {% endcomment -%}
 
-  {% comment %} < Delimits headers {% endcomment %}
+  {% comment %} @ Delimits headers {% endcomment %}
   {%- if have_printed -%}<br>@{%- else -%}
   {% assign have_printed=true %}{%- endif -%}
 
-  {% comment %} > Delimits data for a given header {% endcomment %}
+  {% comment %} : Delimits data for a given header {% endcomment %}
   {{- tag -}}:
   {{- l | slice: id_begin, id_len | escape -}}:
   {{- l | slice: text_begin, text_len | url_encode  -}}
