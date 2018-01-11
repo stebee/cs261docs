@@ -21,7 +21,7 @@
 {%- assign find_index  = -1 -%}
 {%- assign find_input  = include.input -%}
 {%- assign find_tofind = include.tofind -%}
-{%- assign find_n      = include.n | plus: 0 -%}
+{%- assign find_n      = include.n | to_integer -%}
 
 {%- assign find_cur_num = 0 -%}
 {%- assign find_begin   = 0 -%}

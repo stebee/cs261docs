@@ -1,6 +1,6 @@
 ---
 title: Home
-layout: default
+layout: view_sidebar
 ---
 
-This is index content
+This is index content1

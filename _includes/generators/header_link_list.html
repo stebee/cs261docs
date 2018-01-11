@@ -45,25 +45,25 @@
     {%- include filters/find_first.html
       input=cur tofind=":" -%}
   {%- endcapture -%}
-  {%- assign index_first = index_first | plus: 0 -%}
+  {%- assign index_first = index_first | to_integer -%}
 
   {%- capture index_second -%}
     {%- include filters/find_nth.html
       input=cur tofind=":" n="1" -%}
   {%- endcapture -%}
-  {%- assign index_second = index_second | plus: 0 -%}
+  {%- assign index_second = index_second | to_integer -%}
 
   {%- if     index_first < 0 -%} {%- break -%}
   {%- elsif index_second < 0 -%} {%- break -%}
   {%- endif %
 
-  {%- assign level_len = index_first | plus: 0 -%}
+  {%- assign level_len = index_first | to_integer -%}
   {%- assign id_begin  = index_first | plus: 1 -%}
   {%- assign id_len    = index_second | minus: id_begin -%}
   {%- assign text_begin = index_second | plus: 1 -%}
   {%- assign text_len = cur | size | minus: index_second -%}
 
-  {%- assign cur_level = cur | slice: 1, level_len | plus: 0 -%}
+  {%- assign cur_level = cur | slice: 1, level_len | to_integer -%}
   {%- assign cur_id    = cur | slice: id_begin, id_len -%}
   {%- assign cur_text  = cur | slice: text_begin, text_len -%}
 

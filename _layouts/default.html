@@ -4,21 +4,6 @@
     {% include head.html %}
   </head>
   <body>
-    DEFAULT CONTENT START
-    <hr>
     {{ content }}
-    <hr>
-    DEFAULT CONTENT ENDM<br><br>
-
-    DATA HEADER LINK START:
-
-    <ul>
-      {% for part in site.my_data %}
-      <li><a href="{{part.url}}">{{part.title}}</a></li>
-      {% include generators/header_link_list.html
-      object=part class="my_class" %}
-      {% endfor %}
-    </ul>
-
   </body>
 </html>
