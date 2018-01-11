@@ -1,0 +1,113 @@
+{%- comment -%}
+  
+  Given an object with content url properties, extracts headers
+  from content and prints a <ul> containing them with links.
+  
+  Required args:
+    object (has content and url property)
+
+  Optional args: 
+    hierarchy (show h3 nested in h2, etc. - default=true)
+    max_scope (how deep can we go - default=3)
+    class (what class the <li> tags get)
+
+{%- endcomment -%}
+
+{% comment %} h2 is lowest level we'll see {% endcomment %}
+{%- assign min_scope = 2 -%}
+{%- assign max_scope = 3 -%}
+{%- assign cur_scope = min_scope -%}
+{%- assign show_hierarchy = true -%}
+
+
+{%- if include.hierarchy or !include.hierarchy -%}
+  {%- assign show_hierarchy = include.hierarchy -%}
+{%- endif -%}
+
+{%- if include.max_scope -%}
+  {%- assign max_scope = include.max_scope -%}
+{%- endif -%}
+
+
+{%- comment -%} Get headers in the provided html {%- endcomment -%}
+{%- capture headers -%}
+  {%- include filters/html_header_ids.html html=include.object.content -%}
+{%- endcapture -%}
+
+{%- assign headers=headers|split: "@" -%}
+
+
+{%- comment -%} Generate the list{%- endcomment -%}
+<ul>
+{% for cur in headers %}
+
+  {%- capture index_first -%}
+    {%- include filters/find_first.html
+      input=cur tofind=":" -%}
+  {%- endcapture -%}
+  {%- assign index_first = index_first | plus: 0 -%}
+
+  {%- capture index_second -%}
+    {%- include filters/find_nth.html
+      input=cur tofind=":" n="1" -%}
+  {%- endcapture -%}
+  {%- assign index_second = index_second | plus: 0 -%}
+
+  {%- if     index_first < 0 -%} {%- break -%}
+  {%- elsif index_second < 0 -%} {%- break -%}
+  {%- endif %
+
+  {%- assign level_len = index_first | plus: 0 -%}
+  {%- assign id_begin  = index_first | plus: 1 -%}
+  {%- assign id_len    = index_second | minus: id_begin -%}
+  {%- assign text_begin = index_second | plus: 1 -%}
+  {%- assign text_len = cur | size | minus: index_second -%}
+
+  {%- assign cur_level = cur | slice: 1, level_len | plus: 0 -%}
+  {%- assign cur_id    = cur | slice: id_begin, id_len -%}
+  {%- assign cur_text  = cur | slice: text_begin, text_len -%}
+
+  {% comment %} Don't show H1 (reserved for titles) {% endcomment %}
+  {%- if cur_level < min_scope -%}
+    {%- continue -%}
+  {%- endif -%}
+
+
+  {%- if show_hierarchy -%}
+    {%- comment -%} nest more deep {%- endcomment -%}
+    {% if cur_scope < cur_level %}
+      {%- assign count = cur_level | minus: cur_scope -%}
+      {%- if cur_level > max_scope -%}
+        {%- assign count = max_scope | minus: cur_scope -%}
+      {%- endif -%}
+      {% for i in (1..count) %}
+        {%- assign cur_scope = cur_scope | plus: 1 -%}
+        <ul>
+
+      {% endfor %}
+
+
+    {%- comment -%} nest less deep {%- endcomment -%}
+    {%- elsif cur_scope > cur_level -%}
+      {%- assign count = cur_scope | minus: cur_level -%}
+      {% for i in (1..count) %}
+        {%- assign cur_scope = cur_scope | minus: 1 -%}
+        </ul>
+      {% endfor %}
+    {% endif %}
+  {%- endif -%}
+
+  <li class="level-{{cur_level}}{% if include.class %} {{ include.class }}{% endif %}"><a href="{{include.object.url}}#{{cur_id}}">{{- cur_text | url_decode -}}</a></li>
+
+{% endfor %}
+
+{%- comment -%} clean up nesting {%- endcomment -%}
+{%- if show_hierarchy -%}
+  {%- assign count = cur_scope | minus: min_scope -%}
+  {% for i in (1..count) %}
+    {%- assign cur_scope = cur_scope | minus: 1 -%}
+    </ul>
+  {% endfor %}
+{%- endif -%}
+
+</ul>

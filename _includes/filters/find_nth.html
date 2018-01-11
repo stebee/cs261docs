@@ -1,0 +1,51 @@
+{%- comment -%}
+  Given an input string, a substring, and a requested n (occurence number), returns the index where that instance occurs, or -1
+
+  Example 
+    Usage: 
+      {% capture index %}
+        {% include filters/find_nth.html
+          input="ab_ac_ad_ae" tofind="a" n="2" %}
+      {% endcapture %}
+      Index is: {{index}}
+
+    Output: 
+      Index is: 6
+  
+  Note: index above is a str. to make a number do:
+    {% assign index=index | plus 0%}
+
+{%- endcomment -%}
+
+
+{%- assign find_index  = -1 -%}
+{%- assign find_input  = include.input -%}
+{%- assign find_tofind = include.tofind -%}
+{%- assign find_n      = include.n | plus: 0 -%}
+
+{%- assign find_cur_num = 0 -%}
+{%- assign find_begin   = 0 -%}
+{%- assign find_length  = find_tofind | size -%}
+{%- assign find_end     = find_input | size | minus: find_length -%}
+
+{%- if find_input contains find_tofind -%}
+  {%- if find_n > 0 -%}
+
+    {%- for find_i in (find_begin..find_end) -%}
+      {%- assign find_cur = find_input | slice: find_i, find_length -%}
+      {%- if find_cur == find_tofind -%}
+
+        {%- if find_cur_num == find_n -%}
+          {%- assign find_index = find_i -%}
+          {%- break -%}
+        {%- else -%}
+          {%- assign find_cur_num = find_cur_num | plus: 1 -%}
+        {%- endif -%}
+
+      {%- endif -%}
+    {%- endfor -%}
+
+  {%- endif -%}
+{%- endif -%}
+
+{{- find_index -}}

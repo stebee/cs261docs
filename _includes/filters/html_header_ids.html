@@ -1,0 +1,78 @@
+{%- comment -%}
+  Extracts id's of headers in html generated from markdown. 
+
+  NOTE: It is assumed the header tag is on its own line and formatted like:
+    <h# id="some-id">some content</h#>
+
+  Example 
+    Input (assume stored as string in 'content'):
+      <h2 id="a">Header A</h2>
+      blah
+      <h3 id="b">Header B</h3>
+      derp
+      <h2 id="c">Header C</h2>
+    
+    Usage:
+      {% include filters/html_get_header_ids.html html=content %}
+    
+    Output:
+      h2:a:Header A@h3:b:Header B@h2:c:Header C
+      "@" delimits headers, ":" delimit data for each header (tag,id,text)
+{%- endcomment -%}
+
+
+{% comment %} Get array of lines{% endcomment %}
+{%- assign lines = include.html | newline_to_br | split: "<br />" -%}
+{%- assign have_printed = false -%}
+
+{%- for line in lines -%}
+  {% comment %} Make sure ti strip left/right whitespace {% endcomment %}
+  {%- assign l = line | strip -%}
+
+  {% comment %} use space in <h# id=... to grab "h#" {% endcomment %}
+  {%- capture id_begin%}
+    {%- include filters/find_first.html
+      input=l tofind=" id=" -%}
+  {%- endcapture -%}
+  {%- assign first_space = id_begin | minus: 1 -%}
+  {% comment %} discard tags that don't have space (no id) {% endcomment %}
+  {%- if first_space < 0 -%}
+    {%- continue -%}
+  {%- endif -%}
+
+  {% comment %} discard tags that aren't 2 chars long {% endcomment %}
+  {%- assign tag = l | slice: 1, first_space -%}
+  {%- assign taglen = tag | size -%}
+  {%- if taglen != 2 -%}
+    {%- continue -%}
+  {%- endif -%}
+
+  {% comment %} Get the content of the id {% endcomment %}
+  {%- assign id_begin = id_begin | plus: 5 -%}
+  {%- capture id_end -%}
+    {%- include filters/find_first.html
+      input=l tofind=">" -%}
+  {%- endcapture -%}
+  {%- assign id_len = id_end | minus: id_begin | minus: 1 -%}
+
+  {% comment %} Get the text of the Header {% endcomment %}
+  {%- assign text_begin = id_end | plus: 1 -%}
+  {%- capture text_end -%}
+    {%- include filters/find_last.html
+      input=l tofind="</" -%}
+  {%- endcapture -%}
+  {%- assign text_len = text_end | minus: text_begin %}
+
+
+  {%- comment %} Generate Output: {% endcomment -%}
+
+  {% comment %} < Delimits headers {% endcomment %}
+  {%- if have_printed -%}<br>@{%- else -%}
+  {% assign have_printed=true %}{%- endif -%}
+
+  {% comment %} > Delimits data for a given header {% endcomment %}
+  {{- tag -}}:
+  {{- l | slice: id_begin, id_len | escape -}}:
+  {{- l | slice: text_begin, text_len | url_encode  -}}
+
+{%- endfor -%}

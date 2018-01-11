@@ -1,0 +1,42 @@
+{%- comment -%}
+  Given an input string and a substring, returns index of last instance of that substring or -1. Use Capture to get value
+
+  Example 
+    Usage: 
+      {% capture index %}
+        {% include filters/find_last.html
+          input="a_ab_abc" tofind="ab" %}
+      {% endcapture %}
+      Index is: {{index}}
+
+    Output: 
+      Index is: 5
+  
+  Note: index above is a str. to make a number do:
+    {% assign index=index | plus 0%}
+
+{%- endcomment -%}
+
+
+{%- assign find_index  = -1 -%}
+{%- assign find_input  = include.input -%}
+{%- assign find_tofind = include.tofind -%}
+
+{%- assign find_begin  = 0 -%}
+{%- assign find_length = find_tofind | size -%}
+{%- assign find_end    = find_input | size | minus: find_length -%}
+
+{%- if find_input contains find_tofind -%}
+
+  {%- for find_j in (find_begin..find_end) -%}
+    {%- assign find_i = find_end | minus: find_j -%}
+    {%- assign find_cur = find_input | slice: find_i, find_length -%}
+    {%- if find_cur == find_tofind -%}
+      {%- assign find_index = find_i -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+{%- endif -%}
+
+{{- find_index -}}
