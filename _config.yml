@@ -44,7 +44,7 @@ exclude:
 ## Data/Collection Configs
 ##
 collections:
-  data:
+  my_data:
     title:          Test Data
     permalink:      /:path/
     output:         true
@@ -52,9 +52,9 @@ collections:
 
 ## Dependencies
 ##
-gem:                [jekyll-admin]
 plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
   - jekyll-feed
+  - jekyll-admin
 
