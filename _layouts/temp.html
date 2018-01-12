@@ -1,0 +1,13 @@
+
+{% comment %}{%- include elements/nav.html  -%}{% endcomment %}
+
+{% include_relative _my_data/Data_Bar_C.md %}
+
+<ul>
+{% for part in site.my_data %}
+  {% assign path_path = part.path %}
+  {% include_relative {{ path_path }} %}
+  {% comment %}<li>{{part.path}}</li>{% endcomment %}
+{% comment %}{% include_relative index.md %}{% endcomment %}
+{% endfor %}
+</ul>

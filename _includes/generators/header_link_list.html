@@ -30,8 +30,15 @@
 
 
 {%- comment -%} Get headers in the provided html {%- endcomment -%}
+
+{% comment %}
+  If we are rendering the list for an object that was rendered before the 
+  following objects, then the following objects will be raw markdown (not html yet)
+  We markdownify just in case to make sure this does nto happen.
+{% endcomment %}
+{%- assign obj_html = include.object.content | markdownify -%}
 {%- capture headers -%}
-  {%- include filters/html_header_ids.html html=include.object.content -%}
+  {%- include filters/html_header_ids.html html=obj_html -%}
 {%- endcapture -%}
 
 {%- assign headers=headers|split: "@" -%}

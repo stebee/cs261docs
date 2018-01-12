@@ -31,6 +31,9 @@ excerpt_separator:  "<!-- more -->"
 #   sass_dir:         _sass
 #   style:            :compressed
 
+# allow us to include markdown files - defualt is _includes
+# includes_dir:    ./
+
 exclude:
   - .gitignore
   - Gemfile
